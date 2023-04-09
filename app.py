@@ -2,8 +2,10 @@
 #           파이썬 객체를 JSON 형식으로 변환해주고, 이를 HTTP 응답으로 반환해줍니다.
 
 from flask import Flask, jsonify, request
+
 import torch
 import torch.nn as nn
+
 
 # 데이터 처리의 분석을 위한 라이브러리.
 # 행과 열로 이루어진 데이터 객체를 만들어 다룰 수 있음.
@@ -98,8 +100,7 @@ def preprocess_audio():
     # cnn으로 학습된 소리데이터 파일
     model = torch.load("cnn_best_model0.pt")
     predict_list = prediction(model, data_lode, device)
-    index = predict_list[0][0][0][0]  # 중첩리스트들 안의 추론한 소리를 가리키는 숫자를 index에 저장
-    return str(index)  # 얘를 안드로이드 쪽으로 보내야하는 것
+    return predict_list  # 이건 배열 형태임. 안드로이드 쪽에서 배열형태를 받을 수 있을지 의문. 안되면 json 형식으로 보내기
 
 
 # 들어온 소리가 학습된 소리데이터 중 어떤 것과 가장 비슷한지 추론하여 결과를 반환
@@ -108,11 +109,10 @@ def prediction(model, data, device):
     model.eval()
     for wav in iter(data):
         wav = wav.to(device).float()
-        logit = model(wav)
+        logit, softmax = model(wav)
         pred = logit.argmax(dim=1, keepdim=True)
         predic_list.append(pred.tolist())
-    return predic_list
-
+    return softmax
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
