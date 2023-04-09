@@ -79,25 +79,25 @@ app = Flask(__name__)
 # 소리 데이터 전처리
 @app.route('/upload_audio', methods=['POST'])
 def preprocess_audio():
-    list = []
-    file = request.files['audio_file']
-    audio_data, _ = librosa.load(file, sr=22050)
-    print(type(audio_data))
-    print(audio_data)
-    audio_data = librosa.feature.mfcc(audio_data, n_mfcc=40, n_fft=400)
-    audio_data = data_slice(audio_data, 80)
-    delta_mfcc = librosa.feature.delta(test_mfcc_prev)
-    delta_mfcc2 = librosa.feature.delta(test_mfcc_prev, order=2)
-    audio_data = np.concatenate([audio_data, delta_mfcc, delta_mfcc2], axis=0)
-    list.append(audio_data)
-    list = np.array(list)
-    list = list.reshape(-1, list.shape[1], list.shape[2], 1)
-    data_set = Custom_Dataset(list, None)
-    data_load = DataLoader(dataset, batch_size=6, shuffle=False)
+    # list = []
+    # file = request.files['audio_file']
+    # audio_data, _ = librosa.load(file, sr=22050)
+    # print(type(audio_data))
+    # print(audio_data)
+    # audio_data = librosa.feature.mfcc(audio_data, n_mfcc=40, n_fft=400)
+    # audio_data = data_slice(audio_data, 80)
+    # delta_mfcc = librosa.feature.delta(test_mfcc_prev)
+    # delta_mfcc2 = librosa.feature.delta(test_mfcc_prev, order=2)
+    # audio_data = np.concatenate([audio_data, delta_mfcc, delta_mfcc2], axis=0)
+    # list.append(audio_data)
+    # list = np.array(list)
+    # list = list.reshape(-1, list.shape[1], list.shape[2], 1)
+    # data_set = Custom_Dataset(list, None)
+    # data_load = DataLoader(dataset, batch_size=6, shuffle=False)
 
-    # cnn으로 학습된 소리데이터 파일
-    model = torch.load("cnn_best_model0.pt")
-    predict_list = prediction(model, data_lode, device)
+    # # cnn으로 학습된 소리데이터 파일
+    # model = torch.load("cnn_best_model0.pt")
+    # predict_list = prediction(model, data_lode, device)
     return {"success": True,"message": "hello"}  # 이건 배열 형태임. 안드로이드 쪽에서 배열형태를 받을 수 있을지 의문. 안되면 json 형식으로 보내기
 
 
