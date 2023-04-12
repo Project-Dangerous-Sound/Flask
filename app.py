@@ -15,7 +15,6 @@ import pandas as pd
 # 난수생성
 import numpy as np
 from torchvision import transforms
-from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 device = torch.device('cpu')
 
