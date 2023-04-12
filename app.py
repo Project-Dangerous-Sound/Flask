@@ -8,6 +8,7 @@ import torch.nn as nn
 # 데이터 처리의 분석을 위한 라이브러리.
 # 행과 열로 이루어진 데이터 객체를 만들어 다룰 수 있음.
 # 대용량의 데이터들을 처리하는데 매우 편리
+import librosa
 import pandas as pd
 
 # 행렬/배열 처리 및 연산
