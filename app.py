@@ -84,20 +84,20 @@ def preprocess_audio():
     audio_data, _ = librosa.load(file, sr=22050)
     print(type(audio_data))
     print(audio_data)
-    audio_data = librosa.feature.mfcc(audio_data, n_mfcc=40, n_fft=400)
-    audio_data = data_slice(audio_data, 80)
-    delta_mfcc = librosa.feature.delta(test_mfcc_prev)
-    delta_mfcc2 = librosa.feature.delta(test_mfcc_prev, order=2)
-    audio_data = np.concatenate([audio_data, delta_mfcc, delta_mfcc2], axis=0)
-    list.append(audio_data)
+    mfcc = librosa.feature.mfcc(y=audio_data, sr=22050, n_mfcc=40, n_fft=400)
+    mfcc = data_slice(audio_data, 80)
+    delta_mfcc = librosa.feature.delta(mfcc)
+    delta_mfcc2 = librosa.feature.delta(mfcc, order=2)
+    features = np.concatenate([mfcc, delta_mfcc, delta_mfcc2], axis=0)
+    list.append(features)
     list = np.array(list)
     list = list.reshape(-1, list.shape[1], list.shape[2], 1)
     data_set = Custom_Dataset(list, None)
-    data_load = DataLoader(dataset, batch_size=6, shuffle=False)
+    data_load = DataLoader(data_set, batch_size=6, shuffle=False)
 
     # cnn으로 학습된 소리데이터 파일
-    model = torch.load("cnn_best_model0.pt")
-    predict_list = prediction(model, data_lode, device)
+    model = torch.load("bestmodel0.pt")
+    predict_list = prediction(model, data_load, device)
     return {"message" : "hello"}  # 이건 배열 형태임. 안드로이드 쪽에서 배열형태를 받을 수 있을지 의문. 안되면 json 형식으로 보내기
 
 
