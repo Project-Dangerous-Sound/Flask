@@ -95,7 +95,7 @@ def preprocess_audio():
     data_load = DataLoader(data_set, batch_size=6, shuffle=False)
 
     # cnn으로 학습된 소리데이터 파일
-    model = torch.load("bestmodel0.pt")
+    model = torch.load("bestmodel0.pt", map_location=device)
     predict_list = prediction(model, data_load, device)
     return {"message" : "hello"}  # 이건 배열 형태임. 안드로이드 쪽에서 배열형태를 받을 수 있을지 의문. 안되면 json 형식으로 보내기
 
