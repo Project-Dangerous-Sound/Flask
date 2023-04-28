@@ -164,14 +164,16 @@ def preprocess_audio():
 
 
 # 들어온 소리가 학습된 소리데이터 중 어떤 것과 가장 비슷한지 추론하여 결과를 반환
-def prediction(model, data, device):
+def prediction(model, predic_data, device):
     predic_list = []
     model.eval()
-    for wav in iter(data):
-        wav = wav.to(device).float()
-        logit, softmax = model(wav)
-        pred = logit.argmax(dim=1, keepdim=True)
-        predic_list.append(pred.tolist())
+    with torch.no_grad():
+        for wav in tqdm(iter(predic_data)):
+            wav = wav.to(device).float()
+            logit, softmax = model(wav)
+            pred = logit.argmax(dim = 1, keepdim = True)
+            predic_list.append(pred.tolist())
+            print(softmax)
     return softmax
 
 
