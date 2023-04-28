@@ -44,6 +44,66 @@ class Custom_Dataset(Dataset):
 
 app = Flask(__name__)
 
+class ResidualConnection_CNN(torch.nn.Module):  # 4?? layer?? ????
+    def __init__(self):
+        super(ResidualConnection_CNN, self).__init__()
+        self.residual_block1 = torch.nn.Sequential(
+            nn.Conv2d(120, 120, kernel_size=3, stride=1, padding=1),  # cnn layer
+            nn.ReLU(),  # activation function
+            nn.Conv2d(120, 120, kernel_size=3, stride=1, padding=1)
+        )  # pooling layer
+
+        self.residual_block2 = torch.nn.Sequential(
+            nn.Conv2d(120, 120, kernel_size=3, stride=1, padding=1),  # cnn layer
+            nn.ReLU(),  # activation function
+            nn.Conv2d(120, 120, kernel_size=3, stride=1, padding=1)
+        )  # pooling layer
+
+        self.residual_block3 = torch.nn.Sequential(
+            nn.Conv2d(120, 120, kernel_size=3, stride=1, padding=1),  # cnn layer
+            nn.ReLU(),  # activation function
+            nn.Conv2d(120, 120, kernel_size=3, stride=1, padding=1)
+        )  # pooling layer
+
+        self.residual_block4 = torch.nn.Sequential(
+            nn.Conv2d(120, 120, kernel_size=3, stride=1, padding=1),  # cnn layer
+            nn.ReLU(),  # activation function
+            nn.Conv2d(120, 120, kernel_size=3, stride=1, padding=1)
+        )  # pooling layer
+        self.relu = torch.nn.ReLU()
+
+        self.fc_layer1 = nn.Sequential(
+            nn.Dropout(0.25),
+            nn.Linear(120 * 80 * 1, 1000)  # fully connected layer(ouput layer)
+        )
+        self.fc_layer2 = nn.Sequential(
+            nn.Dropout(0.25),
+            nn.Linear(1000, 6)
+        )
+
+    def forward(self, x):
+        x1 = self.residual_block1(x)
+        x1 = x1 + x
+        x1 = self.relu(x1)
+
+        x2 = self.residual_block2(x1)
+        x2 = x2 + x1
+        x2 = self.relu(x2)
+
+        x3 = self.residual_block3(x2)
+        x3 = x3 + x2
+        x3 = self.relu(x3)
+
+        x4 = self.residual_block4(x3)
+        x4 = x4 + x3
+        x4 = self.relu(x4)
+
+        x4 = torch.flatten(x4, start_dim=1)
+        out = self.fc_layer1(x4)
+        out = self.fc_layer2(out)
+        softmax = F.log_softmax(out, dim=1)
+        return out, softmax
+
 '''벡터화된 오디오 데이터가 포함된 JSON 페이로드로 POST 요청을 수락하는 /predict 경로를 정의합니다. 
 데이터를 numpy 배열로 변환하고 PyTorch 모델의 입력 모양과 일치하도록 모양을 변경합니다. 
 그런 다음 추론을 수행하고 예측된 클래스를 JSON 응답으로 반환합니다.'''
@@ -96,6 +156,9 @@ def preprocess_audio():
 
     # cnn으로 학습된 소리데이터 파일
     model = torch.load("bestmodel0.pt", map_location=device)
+    check_point = torch.load("bestmodel0.pt", map_location=device)
+    model = ResidualConnection_CNN().to(device)
+    model.load_state_dict(torch.load("bestmodel0.pt", map_location=device))
     predict_list = prediction(model, data_load, device)
     return {"message" : "hello"}  # 이건 배열 형태임. 안드로이드 쪽에서 배열형태를 받을 수 있을지 의문. 안되면 json 형식으로 보내기
 
