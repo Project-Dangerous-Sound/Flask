@@ -72,8 +72,7 @@ app = Flask(__name__)
 #     return jsonify(data)
 
 
-def data_slice(a, i): return a[:, 0:i] if a.shape[1] > i else np.hstack(
-    a, shape[1], np.zeros(i - a.shape[1]))
+slice = lambda a, i: a[:, 0:i] if a.shape[1] > i else np.hstack((a, np.zeros((a.shape[0], i - a.shape[1]))))  # 데이터의 길이를 설정한 길이에 맞게 맞춰줌
 
 
 # 소리 데이터 전처리
