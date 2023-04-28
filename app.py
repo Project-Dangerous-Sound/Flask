@@ -84,7 +84,7 @@ def preprocess_audio():
     print(type(audio_data))
     print(audio_data)
     mfcc = librosa.feature.mfcc(y=audio_data, sr=22050, n_mfcc=40, n_fft=400)
-    mfcc = data_slice(audio_data, 80)
+    mfcc = slice(audio_data, 80)
     delta_mfcc = librosa.feature.delta(mfcc)
     delta_mfcc2 = librosa.feature.delta(mfcc, order=2)
     features = np.concatenate([mfcc, delta_mfcc, delta_mfcc2], axis=0)
