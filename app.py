@@ -160,7 +160,7 @@ def preprocess_audio():
     model = ResidualConnection_CNN().to(device)
     model.load_state_dict(torch.load("bestmodel0.pt", map_location=device))
     predict_list = prediction(model, data_load, device)
-    return {"message" : "hello"}  # 이건 배열 형태임. 안드로이드 쪽에서 배열형태를 받을 수 있을지 의문. 안되면 json 형식으로 보내기
+    return predict_list  # 이건 배열 형태임. 안드로이드 쪽에서 배열형태를 받을 수 있을지 의문. 안되면 json 형식으로 보내기
 
 
 # 들어온 소리가 학습된 소리데이터 중 어떤 것과 가장 비슷한지 추론하여 결과를 반환
