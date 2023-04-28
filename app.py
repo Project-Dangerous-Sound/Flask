@@ -151,7 +151,7 @@ def preprocess_audio():
     list.append(features)
     list = np.array(list)
     list = list.reshape(-1, list.shape[1], list.shape[2], 1)
-    data_set = Custom_Dataset(list, None)
+    data_set = Custom_Dataset(X = list, y = None, train_mode=False)
     data_load = DataLoader(data_set, batch_size=6, shuffle=False)
 
     # cnn으로 학습된 소리데이터 파일
