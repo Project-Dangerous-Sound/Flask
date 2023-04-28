@@ -43,7 +43,7 @@ class Custom_Dataset(Dataset):
 
 
 app = Flask(__name__)
-
+import torch.nn.functional as F
 class ResidualConnection_CNN(torch.nn.Module):  # 4?? layer?? ????
     def __init__(self):
         super(ResidualConnection_CNN, self).__init__()
