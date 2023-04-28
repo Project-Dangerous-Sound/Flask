@@ -168,7 +168,7 @@ def prediction(model, predic_data, device):
     predic_list = []
     model.eval()
     with torch.no_grad():
-        for wav in tqdm(iter(predic_data)):
+        for wav in iter(predic_data):
             wav = wav.to(device).float()
             logit, softmax = model(wav)
             pred = logit.argmax(dim = 1, keepdim = True)
