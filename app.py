@@ -179,12 +179,9 @@ def prediction(model, predic_data, device):
         for wav in iter(predic_data):
             wav = wav.to(device).float()
             logit, softmax = model(wav)
-            print("softmax_first: {}".format(softmax))
-            print("logit: {}".format(logit))
-            pred = logit.argmax(dim = 1, keepdim = True)
-            predic_list.append(pred.tolist())
-            print("softmax_second: {}".format(softmax))
-            print("predic_list: {}".format(predic_list))
+            print("softmax: {}".format(softmax))
+            #pred = logit.argmax(dim = 1, keepdim = True)
+            #predic_list.append(pred.tolist())
     return softmax
 
 
