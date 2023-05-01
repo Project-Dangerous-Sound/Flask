@@ -141,8 +141,8 @@ def preprocess_audio():
     list = []
     file = request.files['audio']
     audio_data, _ = librosa.load(file, sr=22050)
-    print(type(audio_data))
-    print(audio_data)
+    print("type(audio_data): {}".format(type(audio_data)))
+    print("audio_data: {}".format(audio_data))
     mfcc = librosa.feature.mfcc(y=audio_data, sr=22050, n_mfcc=40, n_fft=400)
     mfcc = slice(mfcc, 80)
     delta_mfcc = librosa.feature.delta(mfcc)
@@ -167,7 +167,7 @@ def preprocess_audio():
         s+=str(i)
         s+=" "
         
-    print(s)
+    print("s: {}".format(s))
     return {"message": s}  # 이건 배열 형태임. 안드로이드 쪽에서 배열형태를 받을 수 있을지 의문. 안되면 json 형식으로 보내기
 
 
