@@ -166,6 +166,8 @@ def preprocess_audio():
         i = format(i, 'f')
         s+=str(i)
         s+=" "
+        
+    print(s)
     return {"message": s}  # 이건 배열 형태임. 안드로이드 쪽에서 배열형태를 받을 수 있을지 의문. 안되면 json 형식으로 보내기
 
 
