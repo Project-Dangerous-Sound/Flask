@@ -155,10 +155,10 @@ def preprocess_audio():
     data_load = DataLoader(data_set, batch_size=6, shuffle=False)
 
     # cnn으로 학습된 소리데이터 파일
-    model = torch.load("bestmodel0.pt", map_location=device)
-    check_point = torch.load("bestmodel0.pt", map_location=device)
+    model = torch.load("bestmodel1.pt", map_location=device)
+    check_point = torch.load("bestmodel1.pt", map_location=device)
     model = ResidualConnection_CNN().to(device)
-    model.load_state_dict(torch.load("bestmodel0.pt", map_location=device))
+    model.load_state_dict(torch.load("bestmodel1.pt", map_location=device))
     predict_list = prediction(model, data_load, device)
     
     s = ""
@@ -179,9 +179,9 @@ def prediction(model, predic_data, device):
         for wav in iter(predic_data):
             wav = wav.to(device).float()
             logit, softmax = model(wav)
-            pred = logit.argmax(dim = 1, keepdim = True)
-            predic_list.append(pred.tolist())
-            print(softmax)
+            print("softmax: {}".format(softmax))
+            #pred = logit.argmax(dim = 1, keepdim = True)
+            #predic_list.append(pred.tolist())
     return softmax
 
 
