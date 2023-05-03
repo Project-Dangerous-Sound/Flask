@@ -101,7 +101,7 @@ class ResidualConnection_CNN(torch.nn.Module):  # 4?? layer?? ????
         x4 = torch.flatten(x4, start_dim=1)
         out = self.fc_layer1(x4)
         out = self.fc_layer2(out)
-        softmax = F.log_softmax(out, dim=1)
+        softmax = F.softmax(out, dim=1)
         return out, softmax
 
 '''벡터화된 오디오 데이터가 포함된 JSON 페이로드로 POST 요청을 수락하는 /predict 경로를 정의합니다. 
