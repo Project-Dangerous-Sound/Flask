@@ -186,7 +186,7 @@ def prediction(model, predic_data, device):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0',port = 8080)
 
 
 # 이 코드를 사용하면 벡터화된 오디오 파일을 JSON 페이로드로 /predict 경로에 보내고 JSON 형식으로 예측된 ​​클래스를 받을 수 있어야 합니다.
