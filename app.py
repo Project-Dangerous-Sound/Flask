@@ -74,7 +74,7 @@ class ResidualConnection_CNN(torch.nn.Module):  # 4?? layer?? ????
 
         self.fc_layer1 = nn.Sequential(
             nn.Dropout(0.25),
-            nn.Linear(120 * 80 * 1, 1000)  # fully connected layer(ouput layer)
+            nn.Linear(120 * 120 * 1, 1000)  # fully connected layer(ouput layer)
         )
         self.fc_layer2 = nn.Sequential(
             nn.Dropout(0.25),
