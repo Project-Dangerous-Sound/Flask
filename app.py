@@ -70,7 +70,7 @@ class ResidualConnection_CNN(torch.nn.Module):  # 4?? layer?? ????
             nn.ReLU(),  # activation function
             nn.Conv2d(120, 120, kernel_size=3, stride=1, padding=1)
         )  # pooling layer
-        self.relu = torch.nn.ReLU()
+        self.relu = torch.nn.LeakyReLU()
 
         self.fc_layer1 = nn.Sequential(
             nn.Dropout(0.25),
@@ -144,7 +144,7 @@ def preprocess_audio():
     print("type(audio_data): {}".format(type(audio_data)))
     print("audio_data: {}".format(audio_data))
     mfcc = librosa.feature.mfcc(y=audio_data, sr=22050, n_mfcc=40, n_fft=400)
-    mfcc = slice(mfcc, 80)
+    mfcc = slice(mfcc, 120)
     delta_mfcc = librosa.feature.delta(mfcc)
     delta_mfcc2 = librosa.feature.delta(mfcc, order=2)
     features = np.concatenate([mfcc, delta_mfcc, delta_mfcc2], axis=0)
