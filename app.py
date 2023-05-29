@@ -155,10 +155,10 @@ def preprocess_audio():
     data_load = DataLoader(data_set, batch_size=6, shuffle=False)
 
     # cnn으로 학습된 소리데이터 파일
-    model = torch.load("bestmodel_new3.pt", map_location=device)
-    check_point = torch.load("bestmodel_new3.pt", map_location=device)
+    model = torch.load("bestmodel_new4.pt", map_location=device)
+    check_point = torch.load("bestmodel_new4.pt", map_location=device)
     model = ResidualConnection_CNN().to(device)
-    model.load_state_dict(torch.load("bestmodel_new3.pt", map_location=device))
+    model.load_state_dict(torch.load("bestmodel_new4.pt", map_location=device))
     predict_list = prediction(model, data_load, device)
     
     s = ""
