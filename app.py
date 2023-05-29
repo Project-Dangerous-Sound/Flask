@@ -155,10 +155,10 @@ def preprocess_audio():
     data_load = DataLoader(data_set, batch_size=6, shuffle=False)
 
     # cnn으로 학습된 소리데이터 파일
-    model = torch.load("bestmodel_new0.pt", map_location=device)
-    check_point = torch.load("bestmodel_new0.pt", map_location=device)
+    model = torch.load("bestmodel_new1.pt", map_location=device)
+    check_point = torch.load("bestmodel_new1.pt", map_location=device)
     model = ResidualConnection_CNN().to(device)
-    model.load_state_dict(torch.load("bestmodel_new0.pt", map_location=device))
+    model.load_state_dict(torch.load("bestmodel_new1.pt", map_location=device))
     predict_list = prediction(model, data_load, device)
     
     s = ""
@@ -186,7 +186,7 @@ def prediction(model, predic_data, device):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0',port = "8080", debug = True)
 
 
 # 이 코드를 사용하면 벡터화된 오디오 파일을 JSON 페이로드로 /predict 경로에 보내고 JSON 형식으로 예측된 ​​클래스를 받을 수 있어야 합니다.
